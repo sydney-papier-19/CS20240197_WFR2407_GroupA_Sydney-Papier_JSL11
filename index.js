@@ -19,6 +19,40 @@ function initializeData() {
 
 // TASK: Get elements from the DOM
 const elements = {
+  sideBarDiv: document.getElementById('side-bar-div'),
+  boardsNavLinksDiv: document.getElementById('boards-nav-links-div'),
+  switch: document.getElementById('switch'),
+  iconDark: document.getElementById('icon-dark'),
+  iconLight: document.getElementById('icon-light'),
+  hideSideBarBtn: document.getElementById('hide-side-bar-btn'),
+  showSideBarBtn: document.getElementById('show-side-bar-btn'),
+
+  headerBoardName: document.getElementById('header-board-name'),
+  dropdownBtn:document.getElementById('dropdownbtn'),
+  addNewTaskBtn: document.getElementById('add-new-task-btn'),
+  editBoardBtn: document.getElementById('edit-board-btn'),
+  threeDotsIcon: document.getElementById('three-dots-icon'),
+  deleteBoardBtn: document.getElementById('delete-board-btn'),
+
+  todoHeadDiv: document.getElementById('todo-head-div'),
+  doingHeadDiv: document.getElementById('doing-head-div'),
+  doneHeadDiv: document.getElementById('done-head-div'),
+
+  newTaskModalWindow: document.getElementById('new-task-modal-window'),
+  titleInput: document.getElementById('title-input'),
+  descriptionInput: document.getElementById('desc-input'),
+  selectStatus: document.getElementById('select-status'),
+  createTaskBtn: document.getElementById('create-task-btn'),
+  cancelAddTaskBtn: document.getElementById('cancel-add-task-btn'),
+
+  editTaskForm: document.getElementById('edit-task-form'),
+  editTaskTitleInput: document.getElementById('edit-task-title-input'),
+  editTaskDescInput: document.getElementById('edit-task-desc-input'),
+  editSelectStatus: document.getElementById('edit-select-status'), 
+
+  saveTaskChangesBtn: document.getElementById('save-task-changes-btn'),
+  cancelEditBtn: document.getElementById('cancel-edit-btn'),
+  deleteTaskBtn: document.getElementById('delete-task-btn'),
 
 }
 
