@@ -1,7 +1,7 @@
 // TASK: import helper functions from utils
-import { getTasks, createNewTask, patchTask, putTask, deleteTask } from "./utils/taskFunctions";
+import { getTasks, createNewTask, patchTask, putTask, deleteTask } from "./utils/taskFunctions.js";
 // TASK: import initialData
-import {initialData} from "./initialData";
+import {initialData} from "./initialData.js";
 
 /*************************************************************************************************************************************************
  * FIX BUGS!!!
@@ -19,7 +19,7 @@ function initializeData() {
 
 // TASK: Get elements from the DOM
 const elements = {
-  sideBarDiv: document.getElementById('side-bar-div'),
+  sideBar: document.getElementById('side-bar-div'),
   boardsNavLinksDiv: document.getElementById('boards-nav-links-div'),
   switch: document.getElementById('switch'),
   iconDark: document.getElementById('icon-dark'),
@@ -98,7 +98,7 @@ function displayBoards(boards) {
 // TASK: Fix Bugs
 function filterAndDisplayTasksByBoard(boardName) {
   const tasks = getTasks(); // Fetch tasks from a simulated local storage function
-  const filteredTasks = tasks.filter(task => task.board = boardName);
+  const filteredTasks = tasks.filter(task => task.board === boardName);
 
   // Ensure the column titles are set outside of this function or correctly initialized before this function runs
 
@@ -113,7 +113,7 @@ function filterAndDisplayTasksByBoard(boardName) {
     const tasksContainer = document.createElement("div");
     column.appendChild(tasksContainer);
 
-    filteredTasks.filter(task => task.status = status).forEach(task => { 
+    filteredTasks.filter(task => task.status === status).forEach(task => { 
       const taskElement = document.createElement("div");
       taskElement.classList.add("task-div");
       taskElement.textContent = task.title;
@@ -226,21 +226,29 @@ function addTask(event) {
 
   //Assign user input to the task object
     const task = {
-      
+      title: document.getElementById('task-title').value.trim(),
+      description: document.getElementById('desc-input').value.trim(),
+      status: document.getElementById('select-status').value.trim(),
+      board: activeBoard,
+      id: Date.now(),
     };
+    // Create a new task and add it to the UI
     const newTask = createNewTask(task);
     if (newTask) {
       addTaskToUI(newTask);
-      toggleModal(false);
+      toggleModal(true);
       elements.filterDiv.style.display = 'none'; // Also hide the filter overlay
       event.target.reset();
       refreshTasksUI();
     }
+     localStorage.setItem('task', JSON.stringify(task));
 }
 
 
 function toggleSidebar(show) {
- 
+  elements.showSideBarBtn.style.display = show ? "none" : "block";
+  elements.sideBar.style.display = show ? "block" : "none";
+  localStorage.setItem('showSideBar', JSONstringify(show));
 }
 
 function toggleTheme() {
