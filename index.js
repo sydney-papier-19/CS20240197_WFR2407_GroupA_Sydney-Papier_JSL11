@@ -101,8 +101,8 @@ function filterAndDisplayTasksByBoard(boardName) {
   const filteredTasks = tasks.filter(task => task.board === boardName);
 
   // Ensure the column titles are set outside of this function or correctly initialized before this function runs
-
-  elements.columnDivs.forEach(column => {
+  const columnDivs = document.querySelectorAll(".column-div");
+  columnDivs.forEach(column => {
     const status = column.getAttribute("data-status");
     // Reset column content while preserving the column title
     column.innerHTML = `<div class="column-head-div">
@@ -137,20 +137,20 @@ function refreshTasksUI() {
 // Styles the active board by adding an active class
 // TASK: Fix Bugs
 function styleActiveBoard(boardName) {
-  document.querySelectorAll('.board-btn').foreach(btn => { 
+  document.querySelectorAll('.board-btn').forEach(btn => { 
     
     if(btn.textContent === boardName) {
-      btn.add('active') 
+      btn.classList.add('active'); 
     }
     else {
-      btn.remove('active'); 
+      btn.classList.remove('active'); 
     }
   });
 }
 
 
 function addTaskToUI(task) {
-  const column = document.querySelector('.column-div[data-status="${task.status}"]'); 
+  const column = document.querySelector(`.column-div[data-status="${task.status}"]`); 
   if (!column) {
     console.error(`Column not found for status: ${task.status}`);
     return;
@@ -169,7 +169,7 @@ function addTaskToUI(task) {
   taskElement.textContent = task.title; // Modify as needed
   taskElement.setAttribute('data-task-id', task.id);
   
-  tasksContainer.appendChild(); 
+  tasksContainer.appendChild(taskElement); 
 }
 
 
@@ -187,7 +187,8 @@ function setupEventListeners() {
   });
 
   // Clicking outside the modal to close it
-  elements.filterDiv.addEventListener('click', () => {
+  const filterDiv = document.getElementById('filterDiv');
+  filterDiv.addEventListener('click', () => {
     toggleModal(false);
     elements.filterDiv.style.display = 'none'; // Also hide the filter overlay
   });
@@ -197,16 +198,16 @@ function setupEventListeners() {
   elements.showSideBarBtn.addEventListener("click", () => { toggleSidebar(true)});
 
   // Theme switch event listener
-  elements.themeSwitch.addEventListener('change', toggleTheme);
+  elements.switch.addEventListener('change', toggleTheme);
 
   // Show Add New Task Modal event listener
-  elements.createNewTaskBtn.addEventListener('click', () => {
+  elements.createTaskBtn.addEventListener('click', () => {
     toggleModal(true);
     elements.filterDiv.style.display = 'block'; // Also show the filter overlay
   });
 
   // Add new task form submission event listener
-  elements.modalWindow.addEventListener('submit',  (event) => {
+  elements.newTaskModalWindow.addEventListener('submit',  (event) => {
     addTask(event)
   });
 }
@@ -241,14 +242,15 @@ function addTask(event) {
       event.target.reset();
       refreshTasksUI();
     }
-     localStorage.setItem('task', JSON.stringify(task));
+    localStorage.setItem('tasks', JSON.stringify([...getTasks(), task])); // Add new task to existing tasks
+
 }
 
 
 function toggleSidebar(show) {
   elements.showSideBarBtn.style.display = show ? "none" : "block";
   elements.sideBar.style.display = show ? "block" : "none";
-  localStorage.setItem('showSideBar', JSONstringify(show));
+  localStorage.setItem('showSideBar', show.toString());
 }
 
 function toggleTheme() {
@@ -295,6 +297,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function init() {
+  initializeData();
   setupEventListeners();
   const showSidebar = localStorage.getItem('showSideBar') === 'true';
   toggleSidebar(showSidebar);
